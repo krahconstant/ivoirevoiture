@@ -1,0 +1,23 @@
+{
+    "name": "Vente Ivoire",
+    "short_name": "Vente Ivoire",
+    "description": "Location et vente de véhicules en Côte d'Ivoire",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "/icons/icon-144x144.svg",
+        "sizes": "144x144",
+        "type": "image/svg+xml"
+      },
+      {
+        "src": "/favicon.ico",
+        "sizes": "32x32",
+        "type": "image/x-icon"
+      }
+    ]
+  }
+  
+  

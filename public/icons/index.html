@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instructions pour les icônes PWA</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h1>Instructions pour les icônes PWA</h1>
+  
+  <div class="warning">
+    <p><strong>Attention :</strong> L'icône <code>/icons/icon-144x144.png</code> est manquante, ce qui provoque une erreur 404.</p>
+  </div>
+  
+  <h2>Solution rapide</h2>
+  
+  <p>Pour résoudre rapidement l'erreur 404, vous pouvez :</p>
+  
+  <ol>
+    <li>Créer un logo carré (idéalement 512x512 pixels)</li>
+    <li>Le redimensionner à 144x144 pixels</li>
+    <li>Le sauvegarder dans <code>/public/icons/icon-144x144.png</code></li>
+  </ol>
+  
+  <h2>Solution complète</h2>
+  
+  <p>Pour une solution complète, générez toutes les icônes nécessaires :</p>
+  
+  <ol>
+    <li>Installez Sharp : <code>npm install sharp</code></li>
+    <li>Placez votre logo dans <code>/public/logo.png</code></li>
+    <li>Exécutez le script : <code>node scripts/generate-icons.js</code></li>
+  </ol>
+  
+  <h2>Icônes nécessaires</h2>
+  
+  <ul>
+    <li><code>/public/icons/android-chrome-192x192.png</code></li>
+    <li><code>/public/icons/android-chrome-512x512.png</code></li>
+    <li><code>/public/icons/apple-touch-icon.png</code></li>
+    <li><code>/public/icons/favicon-16x16.png</code></li>
+    <li><code>/public/icons/favicon-32x32.png</code></li>
+    <li><code>/public/icons/icon-144x144.png</code></li>
+    <li><code>/public/favicon.ico</code></li>
+  </ul>
+  
+  <h2>Code pour générer les icônes</h2>
+  
+  <pre>
+const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
+
+async function generateIcons() {
+  const logoPath = path.join(process.cwd(), 'public', 'logo.png');
+  const iconsDir = path.join(process.cwd(), 'public', 'icons');
+  
+  // Créer le répertoire s'il n'existe pas
+  if (!fs.existsSync(iconsDir)) {
+    fs.mkdirSync(iconsDir, { recursive: true });
+  }
+  
+  // Générer les icônes Android
+  await sharp(logoPath)
+    .resize(192, 192)
+    .toFile(path.join(iconsDir, 'android-chrome-192x192.png'));
+  
+  await sharp(logoPath)
+    .resize(512, 512)
+    .toFile(path.join(iconsDir, 'android-chrome-512x512.png'));
+  
+  // Générer l'icône Apple
+  await sharp(logoPath)
+    .resize(180, 180)
+    .toFile(path.join(iconsDir, 'apple-touch-icon.png'));
+  
+  // Générer les favicons
+  await sharp(logoPath)
+    .resize(16, 16)
+    .toFile(path.join(iconsDir, 'favicon-16x16.png'));
+  
+  await sharp(logoPath)
+    .resize(32, 32)
+    .toFile(path.join(iconsDir, 'favicon-32x32.png'));
+  
+  // Générer l'icône 144x144 (celle qui cause l'erreur 404)
+  await sharp(logoPath)
+    .resize(144, 144)
+    .toFile(path.join(iconsDir, 'icon-144x144.png'));
+  
+  // Générer le favicon.ico
+  await sharp(logoPath)
+    .resize(32, 32)
+    .toFile(path.join(process.cwd(), 'public', 'favicon.ico'));
+  
+  console.log('Toutes les icônes ont été générées avec succès!');
+}
+
+generateIcons().catch(console.error);
+  </pre>
+</body>
+</html>
+

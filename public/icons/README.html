@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instructions pour les icônes PWA</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>Instructions pour générer les icônes PWA</h1>
+  
+  <p>Pour résoudre l'erreur 404 sur les icônes PWA, vous devez générer les icônes suivantes :</p>
+  
+  <ul>
+    <li><code>/public/icons/icon-72x72.png</code></li>
+    <li><code>/public/icons/icon-96x96.png</code></li>
+    <li><code>/public/icons/icon-128x128.png</code></li>
+    <li><code>/public/icons/icon-144x144.png</code> (celui qui cause l'erreur 404)</li>
+    <li><code>/public/icons/icon-152x152.png</code></li>
+    <li><code>/public/icons/icon-192x192.png</code></li>
+    <li><code>/public/icons/icon-384x384.png</code></li>
+    <li><code>/public/icons/icon-512x512.png</code></li>
+  </ul>
+  
+  <h2>Option 1 : Utiliser le script Node.js</h2>
+  
+  <p>Installez Sharp et exécutez le script <code>scripts/generate-pwa-icons.js</code> :</p>
+  
+  <pre>
+npm install sharp
+node scripts/generate-pwa-icons.js
+  </pre>
+  
+  <h2>Option 2 : Utiliser un générateur en ligne</h2>
+  
+  <p>Vous pouvez utiliser un générateur d'icônes PWA en ligne comme <a href="https://www.pwabuilder.com/imageGenerator" target="_blank">PWA Image Generator</a> ou <a href="https://app-manifest.firebaseapp.com/" target="_blank">App Manifest Generator</a>.</p>
+  
+  <h2>Option 3 : Solution temporaire</h2>
+  
+  <p>Si vous voulez juste faire disparaître l'erreur 404, créez manuellement un fichier PNG de 144x144 pixels et placez-le dans <code>/public/icons/icon-144x144.png</code>.</p>
+</body>
+</html>
+

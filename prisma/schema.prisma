@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  name          String
+  phone         String
+  password      String
+  role          Role         @default(USER)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  reservations  Reservation[]
+  messages      Message[]
+  sessions      Session[]    // Ajout de la relation avec Session
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Vehicle {
+  id          String        @id @default(cuid())
+  brand       String
+  model       String
+  price       Float
+  type        VehicleType
+  dailyRate   Float?
+  description String?
+  images      String[]
+  available   Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  reservations Reservation[]
+  messages     Message[]
+}
+
+model Reservation {
+  id          String   @id @default(cuid())
+  userId      String
+  vehicleId   String
+  startDate   DateTime
+  endDate     DateTime
+  totalPrice  Float    // Added field for total price
+  status      String   @default("PENDING")
+  name        String   
+  email       String   
+  phone       String   
+  notes       String?  // Optional notes field
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+
+  @@index([userId])
+  @@index([vehicleId])
+}
+
+
+
+
+
+model Message {
+  id          String    @id @default(cuid())
+  content     String
+  createdAt   DateTime  @default(now())
+  userId      String
+  vehicleId   String
+  user        User      @relation(fields: [userId], references: [id])
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id])
+}
+
+model SiteSettings {
+  id                String   @id @default(cuid())
+  siteName          String   @default("Vente Ivoire")
+  description       String   @default("Location et vente de véhicules")
+  contactEmail      String   @default("contact@venteivoire.com")
+  maintenanceMode   Boolean  @default(false)
+  updatedAt         DateTime @updatedAt @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum VehicleType {
+  LOCATION
+  VENTE
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
