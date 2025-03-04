@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { getSession } from "@/lib/auth"
+import { getSessionEdge } from "@/lib/edge-auth" // Utilisez la version Edge
 import { UserRole } from "@/lib/types"
 
 export async function middleware(request: NextRequest) {
-  const session = await getSession()
-
+  const session = await getSessionEdge()
   // Logs de débogage
   console.log("Current path:", request.nextUrl.pathname)
   console.log("Session:", session)
